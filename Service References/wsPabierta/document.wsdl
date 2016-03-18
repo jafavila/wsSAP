@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="urn:sap-com:document:sap:soap:functions:mc-style" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:n1="urn:sap-com:document:sap:rfc:functions" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsp:UsingPolicy wsdl:required="true" />
+  <wsp:Policy wsu:Id="BN_ZCML_PABIERTAS2_V4">
+    <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing" />
+    <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/" wsp:Optional="true" />
+    <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sp:HttpBasicAuthentication />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="IF_zcml_pabiertas2_v4">
+    <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+      <sapsession:enableSession>false</sapsession:enableSession>
+    </sapsession:Session>
+    <sapcentraladmin:CentralAdministration xmlns:sapcentraladmin="http://www.sap.com/webas/700/soap/features/CentralAdministration/" wsp:Optional="true">
+      <sapcentraladmin:BusinessApplicationID>4FCDBABD63A80131E10080000A010A48</sapcentraladmin:BusinessApplicationID>
+    </sapcentraladmin:CentralAdministration>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_ZcmlPabiertasV2">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:rfc:functions">
+      <xsd:simpleType name="char1">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char13">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="13" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char4">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="char50">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="50" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="cuky5">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="5" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="curr13.2">
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="date">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="\d\d\d\d-\d\d-\d\d" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema xmlns:n0="urn:sap-com:document:sap:rfc:functions" attributeFormDefault="qualified" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:import namespace="urn:sap-com:document:sap:rfc:functions" />
+      <xsd:complexType name="ZcmlPabiertasV2">
+        <xsd:sequence>
+          <xsd:element name="Bukrs" type="n0:char4" />
+          <xsd:element name="Ranl" type="n0:char13" />
+          <xsd:element name="Budat" type="n0:date" />
+          <xsd:element name="Zfbdt" type="n0:date" />
+          <xsd:element name="Belnr" type="n0:char10" />
+          <xsd:element name="Vbewa" type="n0:char4" />
+          <xsd:element name="Sgtxt" type="n0:char50" />
+          <xsd:element name="Shkzg" type="n0:char1" />
+          <xsd:element name="Wrbtr" type="n0:curr13.2" />
+          <xsd:element name="Waers" type="n0:cuky5" />
+          <xsd:element name="Dmbtr" type="n0:curr13.2" />
+          <xsd:element name="Hkont" type="n0:char10" />
+          <xsd:element name="Rebzg" type="n0:char10" />
+          <xsd:element name="ImpReev" type="n0:curr13.2" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TableOfZcmlPabiertasV2">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:ZcmlPabiertasV2" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ZcmlPabiertasV2">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="PBukrs" type="n0:char4" />
+            <xsd:element name="PRanl" type="n0:char13" />
+            <xsd:element name="TPabiertas" type="tns:TableOfZcmlPabiertasV2" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZcmlPabiertasV2Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="TPabiertas" type="tns:TableOfZcmlPabiertasV2" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ZcmlPabiertasV2">
+    <wsdl:part name="parameters" element="tns:ZcmlPabiertasV2" />
+  </wsdl:message>
+  <wsdl:message name="ZcmlPabiertasV2Response">
+    <wsdl:part name="parameter" element="tns:ZcmlPabiertasV2Response" />
+  </wsdl:message>
+  <wsdl:portType name="zcml_pabiertas2_v4">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF_zcml_pabiertas2_v4" />
+    </wsp:Policy>
+    <wsdl:operation name="ZcmlPabiertasV2">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_ZcmlPabiertasV2" />
+      </wsp:Policy>
+      <wsdl:input message="tns:ZcmlPabiertasV2" />
+      <wsdl:output message="tns:ZcmlPabiertasV2Response" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZCML_PABIERTAS2_V4" type="tns:zcml_pabiertas2_v4">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN_ZCML_PABIERTAS2_V4" />
+    </wsp:Policy>
+    <wsa:EndpointReference xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+      <wsa:ReferenceParameters />
+    </wsa:EndpointReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ZcmlPabiertasV2">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZCML_PABIERTAS2_V4">
+    <wsdl:port name="ZCML_PABIERTAS2_V4" binding="tns:ZCML_PABIERTAS2_V4">
+      <soap:address location="http://decce03qas.patrimonio.com.mx:8000/sap/bc/srt/rfc/sap/zcml_pabiertas2_v4/200/zcml_pabiertas2_v4/zcml_pabiertas2_v4" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
