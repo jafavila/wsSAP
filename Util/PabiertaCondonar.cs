@@ -166,6 +166,8 @@ namespace wsSap.Util
               pa.ImpReev = tipoCambio * ldiff;
             }
           }
+          else
+            pa.ImpReev = 0.0M;
           this._lista_pa_condonar.Add(pa);
 
         }

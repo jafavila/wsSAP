@@ -15,7 +15,6 @@ namespace wsSap.Util
     private string[] vbewa_accesorios = new string[] { "0110", "0192", "0193", "0194", "0196", "3151", "3160", "3152", "3156", "3153", "0198", "0205", "0205", "0223", "0224", "0225", "3174", "3165", "0112", "3154" };
     private string[] vbewa_amortizacion = new string[] { "0125", "0123" };
     private Calculo _calculos = new Calculo();
-    private decimal _montoMora = 0.0M;
     private static List<CZcmlPabiertas> getPartidasVencidas(List<CZcmlPabiertas> argPartidaAbierta)
     {
       DateTime lfehca = DateTime.Now;
@@ -77,8 +76,6 @@ namespace wsSap.Util
       CZcmlPabiertas lpa = null;
       Decimal mens_actual = 0.0M;
       Decimal mens_anterior = 0.0M;
-      Decimal mora_ant = 0.0M;
-      Decimal mora_actu = 0.0M;
       DateTime lfcontable = DateTime.MinValue;
       DateTime lahora = DateTime.Now;
       DateTime lanterior = DateTime.Now;
@@ -110,9 +107,6 @@ namespace wsSap.Util
           if (lpa.Shkzg.Equals("s") || lpa.Shkzg.Equals("S"))
             mens_actual += lpa.ImpReev;
 
-          /*Obtener mora*/
-          if (lpa.Vbewa.Equals("3160"))
-            mora_actu = lpa.ImpReev;
         }
           /*Mes anterior*/
         else if (lfcontable.Year == anio_ant && lfcontable.Month == mes_ant)
@@ -120,13 +114,8 @@ namespace wsSap.Util
           /*Obtener de mensualidad*/
           if (lpa.Shkzg.Equals("s") || lpa.Shkzg.Equals("S"))
             mens_anterior += lpa.ImpReev;
-
-          /*Obtener mora*/
-          if (lpa.Vbewa.Equals("3160"))
-            mora_ant = lpa.ImpReev;
         }
       }
-      this.MontoMora = (0.0M < mora_actu ? mora_actu : mora_ant); // JAFF 20160315_2048 - Martes
       lres = (0.0M < mens_actual ? mens_actual : mens_anterior);
       return lres;
     }
@@ -147,6 +136,7 @@ namespace wsSap.Util
 
       try
       {
+
         if (this.partidasAbiertas == null)
           return lres;
         int lno_elementos = this.partidasAbiertas.Count;
@@ -171,16 +161,11 @@ namespace wsSap.Util
     #endregion
 
     #region publico
-    public decimal MontoMora { set { this._montoMora = value; } get { return this._montoMora; } }
 
-    public void realizarCalculos(int argDescAcc, int argDescAmor)
+    public void realizarCalculos(int argDescAcc, int argDescAmor, decimal argMora)
     {
       decimal sumAcc = this.sumaAccesorios();
       decimal sumAmot = this.sumaAmotizaciones();
-      /* Incorrecto  validacion // JAFF 20160315_2058 - Martes
-      decimal quita_directa       = ( argDescAcc == 0 ?  sumAcc : sumAcc  * (argDescAcc  / 100.0M) );
-      decimal quita_condificional = ( argDescAmor == 0 ? sumAmot : sumAmot * (argDescAmor / 100.0M) );
-       * */
 
       decimal quita_directa = sumAcc * (argDescAcc / 100.0M);
       decimal quita_condificional = sumAmot * (argDescAmor / 100.0M);
@@ -188,7 +173,7 @@ namespace wsSap.Util
       decimal total_adeudo = this.totalAdecudo();
       decimal mensualidad = this.caclMensualidad();
 
-      this._calculos.setCalculos(quita_directa, quita_condificional, total_adeudo, mensualidad, this.MontoMora,
+      this._calculos.setCalculos(quita_directa, quita_condificional, total_adeudo, mensualidad, argMora,
         this._mnsGenerada );
     }
 
@@ -203,7 +188,7 @@ namespace wsSap.Util
 
     #region claseinternas
 
-    public class Calculo
+    public class Calculo : CArgPS
     {
       public void setCalculos(decimal argQuita_directa, decimal argQuita_condicional,
         decimal argTotal_adeudo, decimal argMensualidad, decimal argMora, bool argMnsGenerada)

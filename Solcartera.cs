@@ -98,6 +98,12 @@ namespace wsSap
       if( argSol != null )
         _catDetalleSolicitud.Add(argSol);
     }
+
+    public void addDetalleSolicitud(List<ZSolcartera_detalle> argCatDetSol)
+    {
+      if (argCatDetSol!= null)
+        _catDetalleSolicitud.AddRange(argCatDetSol);
+    }
     public bool realizarPeticion()
     {
       ZSolcarteraCliente lcliente = null;
@@ -130,19 +136,20 @@ namespace wsSap
         if (lws_respuesta != null && lws_respuesta.ERROR == 1)
         {
           Solcartera.dbgErr("WsSolcartera Error == 1");
-          this.updateStatus(false, 1, "Solicitud no procesada, error == 1");
           lres = false;
+          this.updateStatus(lres, 1, "Solicitud no procesada, error == 1");
         }
         else
         {
-          this.updateStatus(true, 0, "Esta hecha exitosamente la solicitud a SAP");
+          lres = true;
+          this.updateStatus(lres, 0, "Esta hecha exitosamente la solicitud a SAP");
         }
 
       }
       catch (Exception aexception)
       {
         lres = false;
-        this.updateStatus(false, 1, "Anomalia-realizarSolicitud: " + aexception.Message);
+        this.updateStatus(lres, 1, "Anomalia-realizarSolicitud: " + aexception.Message);
       }
       return lres;
 
@@ -162,6 +169,7 @@ namespace wsSap
     {
 
     }
+
     #endregion
 
   } 

@@ -124,13 +124,9 @@ namespace wsSap
         return this._respuesta;
       }
 
-      public void test()
+      public CSuccess getSuccess()
       {
-        System.Diagnostics.Debug.WriteLine("Test inicio");
-        this.Ranl = "3000000009468";
-        this.Bukrs = "PT10";
-        this.realizarPeticion();
-        System.Diagnostics.Debug.WriteLine("Test fin");
+        return this._respuesta.Success;
       }
 
       public string Ranl  { set{this._respuesta.ranl  = value;} get{ return this._respuesta.ranl; } }

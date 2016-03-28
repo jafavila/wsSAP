@@ -54,6 +54,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Solcartera.cs" />
+    <Compile Include="Util\ArmarSolCondonacion.cs" />
+    <Compile Include="Util\CArgPS.cs" />
     <Compile Include="Util\CSuccess.cs" />
     <Compile Include="Util\CUtil_vbewa.cs" />
     <Compile Include="Util\RespuestaWS.cs" />
@@ -63,7 +65,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\wsPabierta\document.wsdl" />
     <None Include="Service References\wsPabierta\wsSap.wsPabierta.ZcmlPabiertasV2Response.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

@@ -53,23 +53,23 @@ namespace wsSap.Util
     }
 
     private bool crearSolicitud()
-
     { 
       bool lres = false;
       try
       {
-        _solCartera.ZTIPO = "A";
+        _solCartera.ZTIPO = "A"; 
         _solCartera.ZSOLICITUD = Convert.ToString (_datosCodonacion.IdSolicitud );
-        _solCartera.ZFEC_SOLIC = Convert.ToString(_datosCodonacion.FechaPromesa); //0xrevisar formato de fecha
+        _solCartera.ZFEC_SOLIC = DateTime.Now.ToString("yyyy-MM-dd"); //0xrevisar formato de fecha
         _solCartera.BUKRS = _datosCodonacion.Sociedad;
         _solCartera.RANL = _datosCodonacion.Credito;
-        _solCartera.ZFEC_ULTEST = DateTime.Now.ToString() ;  //0xrevisar formato de fecha
+        _solCartera.ZFEC_ULTEST = DateTime.Now.ToString("yyyy-MM-dd");  //0xrevisar formato de fecha
         _solCartera.ZUSER = "Dev";
         _solCartera.ZEST_SOLCAR = "1";
-        _solCartera.ZPROMESA_PAGO = _datosCodonacion.PromesaPago;
-        _solCartera.ZFEC_PROMESA = _datosCodonacion.FechaPromesa.ToString() ; //0xrevisar formato de fecha
-        _solCartera.ZMTO_DESC_MAX = _datosCodonacion.MontoDesMax;
-        _solCartera.ZMTO_DESC_CONV = _datosCodonacion.MontoDesConvenido;
+        _solCartera.ZPROMESA_PAGO = Decimal.Round( _datosCodonacion.PromesaPago, 2 );
+        _solCartera.ZFEC_PROMESA = _datosCodonacion.FechaPromesa.ToString("yyyy-MM-dd"); //0xrevisar formato de fecha
+        _solCartera.ZMTO_DESC_MAX = Decimal.Round( _datosCodonacion.MontoDesMax,2 );
+        _solCartera.ZMTO_DESC_CONV = Decimal.Round(  _datosCodonacion.MontoDesConvenido,2 );
+       // 0xrevisar ZTIPO_SOL debe ir con R
       }
       catch (Exception aexception)
       {
@@ -101,10 +101,10 @@ namespace wsSap.Util
         ldetalle.ZSOLICITUD = Convert.ToString ( this._datosCodonacion.IdSolicitud );
         ldetalle.RANL  = this._datosCodonacion.Credito;
         ldetalle.BELNR = lpa.Belnr;
-        ldetalle.DMBTR = lpa.Dmbtr;
-        ldetalle.WRBTR = lpa.Wrbtr;
+        ldetalle.DMBTR = Decimal.Round( lpa.Dmbtr , 2);
+        ldetalle.WRBTR = Decimal.Round( lpa.Wrbtr, 2 );
         ldetalle.ZEST_DETSOL = this._datosCodonacion.EstatusDelSol_defualt;
-        ldetalle.ZIMP_PAR_MONCRED = lpa.ImpReev;
+        ldetalle.ZIMP_PAR_MONCRED = Decimal.Round( lpa.ImpReev, 2 );
 
         _catSolDetalle.Add(ldetalle);
       }
